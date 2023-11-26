@@ -1,0 +1,7 @@
+.movie-list {
+	width: 1010px;
+	margin-left: auto;
+	margin-right: auto;
+	list-style-type: none;
+	column-count: 2;
+}
