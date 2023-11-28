@@ -17,17 +17,10 @@ export default class MoviesService {
 		return res.json()
 	}
 
-	async getMoviesList(title) {
+	async getMovieList(title) {
 		const res = await this.getResource(
 			`https://api.themoviedb.org/3/search/movie?query=${title}&include_adult=false&language=en-US&page=1`
 		)
-    console.log('Success')
 		return res.results
 	}
-}
-
-const movies = new MoviesService()
-
-movies.getMoviesList('return').then(list => {
-	console.log(list)
-})
+};
