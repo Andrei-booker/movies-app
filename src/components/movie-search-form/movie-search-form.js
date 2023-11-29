@@ -1,11 +1,9 @@
-import React, { Component } from 'react'
-
-export default class MovieSearchForm extends Component {
-	render() {
-		return (
-			<form>
-        <input></input>
-      </form>
-		)
-	}
+function MovieSearchForm() {
+  return (
+    <form>
+      <input />
+    </form>
+  );
 }
+
+export default MovieSearchForm;

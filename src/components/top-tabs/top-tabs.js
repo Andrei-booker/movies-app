@@ -1,11 +1,5 @@
-import React from 'react'
-
-const TopTabs = () => {
-	return (
-		<div>
-			
-		</div>
-	)
+function TopTabs() {
+  return <div />;
 }
 
 export default TopTabs;
