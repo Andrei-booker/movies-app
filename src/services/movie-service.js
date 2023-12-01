@@ -13,7 +13,6 @@ export default class MoviesService {
     if (!res.ok) {
       throw new Error(`Could not fetch ${url} received ${res.status}`);
     }
-
     return res.json();
   }
 
@@ -21,6 +20,17 @@ export default class MoviesService {
     const res = await this.getResource(
       `https://api.themoviedb.org/3/search/movie?query=${title}&include_adult=false&language=en-US&page=1`
     );
-    return res.results;
+    return res.results.map(this.getMovieData);
+  }
+
+  getMovieData(movie) {
+    return {
+      id: movie.id,
+      posterPath: movie.poster_path,
+      title: movie.title,
+      releaseDate: movie.release_date,
+      genre: 'Drama',
+      overview: movie.overview,
+    };
   }
 }
