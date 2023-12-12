@@ -29,7 +29,6 @@ export default class SearchMovieList extends Component {
     this.updateTotalPages();
     if (this.state.idGuestSession) {
       this.getRating();
-      this.setRating();
     }
     console.log('List mounted');
   }
@@ -55,8 +54,7 @@ export default class SearchMovieList extends Component {
   getRating() {
     const { idGuestSession } = this.state;
     this.movieService.getRatedMovieList(idGuestSession).then((list) => {
-      const rating = list.map((movie) => ({ movieId: movie.id, movieRating: movie.rating }));
-      this.setState({ rating });
+      console.log(list);
     });
   }
 
