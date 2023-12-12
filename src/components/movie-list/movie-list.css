@@ -1,16 +1,17 @@
 .movie-list {
-  width: 1010px;
-  margin-left: auto;
-  margin-right: auto;
+  margin: 0;
+  padding: 0;
   list-style-type: none;
   column-count: 2;
+  column-gap: 36px;
 }
 
 .content {
-  margin: 20px 0;
-  margin-bottom: 20px;
-  padding: 30px 50px;
+  width: 1010px;
+  padding: 36px;
+  padding-bottom: 0;
+  margin-left: auto;
+  margin-right: auto;
   text-align: center;
   background: #f8f8f8;
-  border-radius: 4px;
 }
