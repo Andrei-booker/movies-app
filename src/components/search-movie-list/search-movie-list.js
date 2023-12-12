@@ -18,7 +18,7 @@ export default class SearchMovieList extends Component {
     movies: [],
     page: 1,
     totalPages: 0,
-    title: 'return',
+    title: '',
     loading: true,
     error: false,
     idGuestSession: this.props.idGuestSession,
