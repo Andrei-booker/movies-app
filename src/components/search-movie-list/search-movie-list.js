@@ -47,7 +47,7 @@ export default class SearchMovieList extends Component {
 
   updateTitle = (name) => {
     if (name) {
-      this.setState({ title: name });
+      this.setState({ title: name, page: 1 });
     }
   };
 
