@@ -6,6 +6,7 @@ import { Rate } from 'antd';
 import MoviesService from '../../services/movie-service';
 
 import './movie-card.css';
+import Genre from '../movie-genre';
 
 export default class MovieCard extends Component {
   movieService = new MoviesService();
@@ -13,29 +14,29 @@ export default class MovieCard extends Component {
   static defaultProps = {
     posterPath: '',
     rating: 0,
+    vote: 0,
   };
 
   static propTypes = {
     title: PropTypes.string.isRequired,
     releaseDate: PropTypes.string.isRequired,
-    genre: PropTypes.string.isRequired,
     overview: PropTypes.string.isRequired,
     posterPath: PropTypes.string,
     movieId: PropTypes.number.isRequired,
     idGuestSession: PropTypes.string.isRequired,
     rating: PropTypes.number,
+    vote: PropTypes.number,
+    genre: PropTypes.array.isRequired,
   };
 
   state = {
-    movieId: '',
+    movieId: 0,
     idGuestSession: this.props.idGuestSession,
     rating: this.props.rating,
   };
 
   componentDidMount() {
     this.updateState();
-    console.log(this.state.idGuestSession);
-    console.log('Card mounted');
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -48,15 +49,11 @@ export default class MovieCard extends Component {
     if (this.state.rating !== prevState.rating) {
       this.updateState();
     }
-    console.log('Card updated');
   }
 
   postRating(rating) {
     const { movieId, idGuestSession } = this.state;
-    console.log('Guest ID: ', idGuestSession);
-    console.log('Movie ID: ', movieId);
-    console.log('Rating: ', rating);
-    this.movieService.postRating(rating, movieId, idGuestSession).then((res) => console.log(res));
+    this.movieService.postRating(rating, movieId, idGuestSession);
   }
 
   updateState() {
@@ -71,13 +68,27 @@ export default class MovieCard extends Component {
     if (date) return format(new Date(date), 'MMMM dd, yyyy');
   }
 
-  hiddenText(text) {
+  hiddenOverview(text) {
     if (text) {
-      const wordsArr = text.split(' ');
+      const wordsArr = text.split('');
       const wordsCount = wordsArr.length;
-      if (wordsCount > 46) {
-        const cutArr = wordsArr.slice(0, 34);
-        const cuttingText = `${cutArr.join(' ')}...`;
+      if (wordsCount > 170) {
+        const cutArr = wordsArr.slice(0, 170);
+        const cuttingText = `${cutArr.join('')}...`;
+        return cuttingText;
+      }
+    }
+    return text;
+  }
+
+  hiddenTitle(text) {
+    const { overview } = this.props;
+    if (text && overview) {
+      const wordsArr = text.split('');
+      const wordsCount = wordsArr.length;
+      if (wordsCount > 20) {
+        const cutArr = wordsArr.slice(0, 19);
+        const cuttingText = `${cutArr.join('')}...`;
         return cuttingText;
       }
     }
@@ -85,8 +96,17 @@ export default class MovieCard extends Component {
   }
 
   render() {
-    const { title, releaseDate, genre, overview, posterPath } = this.props;
-    const { rating } = this.state;
+    const { title, releaseDate, overview, posterPath, vote, genre } = this.props;
+    const { rating, movieId } = this.state;
+    const shortVote = vote < 10 ? vote.toFixed(1) : vote;
+    let voteColor = '';
+    if (vote <= 3) {
+      voteColor = 'red';
+    } else if (vote <= 5) {
+      voteColor = 'orange';
+    } else if (vote <= 7) {
+      voteColor = 'yellow';
+    } else voteColor = 'green';
     let imageUrl = null;
     if (posterPath === null)
       imageUrl =
@@ -95,17 +115,14 @@ export default class MovieCard extends Component {
     return (
       <div className="movie-card">
         <img alt="Movie poster" className="movie-card__image" src={imageUrl} />
-        <div>
-          <h5 className="movie-card__title">{title}</h5>
+        <div className="movie-card__right-side">
+          <div className="movie-card__top">
+            <h5 className="movie-card__title">{this.hiddenTitle(title)}</h5>
+            <div className={`movie-card__vote vote--${voteColor}`}>{shortVote}</div>
+          </div>
           <span className="movie-card__date">{this.formatDate(releaseDate)}</span>
-          <br />
-          <button type="button" className="movie-card__button--genre">
-            {genre}
-          </button>
-          <button type="button" className="movie-card__button--genre">
-            {genre}
-          </button>
-          <p className="movie-card__overview">{this.hiddenText(overview)}</p>
+          <Genre genre={genre} movieId={movieId} />
+          <p className="movie-card__overview">{this.hiddenOverview(overview)}</p>
           <Rate
             allowHalf
             defaultValue={rating}

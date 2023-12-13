@@ -14,6 +14,31 @@
   max-width: 183px;
 }
 
+.movie-card__right-side {
+  width: 100%;
+}
+
+.movie-card__top {
+  width: auto;
+  justify-content: space-between;
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.movie-card__vote {
+  right: 0;
+  position: absolute;
+  font-size: 12px;
+  border: 2px solid #e9d100;
+  width: 30px;
+  height: 30px;
+  padding-top: 4px;
+  border-radius: 100%;
+  margin-right: 9px;
+  text-align: center;
+}
+
 .movie-card__title {
   margin: 0;
   margin-top: 10px;
@@ -23,26 +48,10 @@
 }
 
 .movie-card__date {
+  display: block;
   color: #827e7e;
   font-size: 12px;
-  line-height: 22px;
   margin-bottom: 9px;
-}
-
-.movie-card__button--genre {
-  width: 46px;
-  height: 20px;
-  font-family: 'Inter', sans-serif;
-  font-size: 12px;
-  line-height: 14px;
-  color: rgba(0, 0, 0, 0.65);
-  border-radius: 2px;
-  background-color: #fafafa;
-  border: solid 1px #d9d9d9;
-  padding: 0;
-  margin-right: 8px;
-  margin-bottom: 7px;
-  cursor: pointer;
 }
 
 .movie-card__overview {
@@ -58,4 +67,20 @@
   font-size: medium;
   position: absolute;
   bottom: 20px;
+}
+
+.vote--yellow {
+  border-color: #e9d100;
+}
+
+.vote--red {
+  border-color: #e90000;
+}
+
+.vote--orange {
+  border-color: #e97e00;
+}
+
+.vote--green {
+  border-color: #66e900;
 }

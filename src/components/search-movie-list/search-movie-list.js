@@ -14,29 +14,23 @@ export default class SearchMovieList extends Component {
   movieService = new MoviesService();
 
   state = {
-    rating: [],
     movies: [],
     page: 1,
     totalPages: 0,
     title: '',
-    loading: true,
+    loading: false,
     error: false,
-    idGuestSession: this.props.idGuestSession,
   };
 
   componentDidMount() {
     this.updateMovieList();
     this.updateTotalPages();
-    if (this.state.idGuestSession) {
-      this.getRating();
-    }
-    console.log('List mounted');
   }
 
   componentDidUpdate(prevProps, prevState) {
     if (this.state.title !== prevState.title) {
       this.updateMovieList();
-      console.log('Title updated');
+      this.updateTotalPages();
     }
     if (this.state.page !== prevState.page) {
       this.updateMovieList();
@@ -50,13 +44,6 @@ export default class SearchMovieList extends Component {
   onMoviesLoaded = (movies) => {
     this.setState({ movies, loading: false });
   };
-
-  getRating() {
-    const { idGuestSession } = this.state;
-    this.movieService.getRatedMovieList(idGuestSession).then((list) => {
-      console.log(list);
-    });
-  }
 
   updateTitle = (name) => {
     if (name) {
@@ -78,13 +65,14 @@ export default class SearchMovieList extends Component {
     if (!title) {
       return;
     }
+    this.setState({ loading: true });
     this.movieService.getMovieList(title, page).then(this.onMoviesLoaded).catch(this.onError);
   }
 
   render() {
-    const { movies, page, totalPages, loading, error, rating } = this.state;
+    const { movies, page, totalPages, loading, error } = this.state;
     const { idGuestSession } = this.props;
-    console.log(rating);
+    const display = loading ? 'none' : 'block';
     return (
       <>
         <MovieSearchForm updateTitle={this.updateTitle} />
@@ -95,7 +83,7 @@ export default class SearchMovieList extends Component {
           showSizeChanger={false}
           pageSize={20}
           hideOnSinglePage
-          style={{ textAlign: 'center' }}
+          style={{ textAlign: 'center', display }}
           onChange={this.onChangePage}
         />
       </>

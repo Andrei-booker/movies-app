@@ -8,20 +8,24 @@ export default class MovieSearchForm extends Component {
     updateTitle: PropTypes.func.isRequired,
   };
 
-  state = {
-    title: '',
-  };
-
   func = debounce(() => {
     this.props.updateTitle(this.state.title);
   }, 750);
+
+  state = {
+    title: '',
+  };
 
   onTitleChange = (e) => {
     this.setState({ title: e.target.value });
     this.func();
   };
 
-  onSubmit = (e) => e.preventDefault();
+  onSubmit = (e) => {
+    e.preventDefault();
+    this.props.updateTitle(this.state.title);
+    this.setState({ title: '' });
+  };
 
   render() {
     return (

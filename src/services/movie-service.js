@@ -39,8 +39,12 @@ export default class MoviesService {
 
   async getGuestSession() {
     const res = await this.getResource(`https://api.themoviedb.org/3/authentication/guest_session/new?${this.APIKEY}`);
-    console.log(res);
     return res.guest_session_id;
+  }
+
+  async getGenres() {
+    const res = await this.getResource(`https://api.themoviedb.org/3/genre/movie/list?language=en&${this.APIKEY}`);
+    return res.genres;
   }
 
   async getTotalPages(title) {
@@ -61,7 +65,6 @@ export default class MoviesService {
     const res = await this.getResource(
       `https://api.themoviedb.org/3/search/movie?query=${title}&include_adult=true&language=en-US&page=${page}&${this.APIKEY}`
     );
-    console.log(res);
     return res.results.map(this.getMovieData);
   }
 
@@ -69,7 +72,6 @@ export default class MoviesService {
     const res = await this.getResource(
       `https://api.themoviedb.org/3/guest_session/${idGuestSession}/rated/movies?language=en-US&page=1&sort_by=created_at.asc&${this.APIKEY}`
     );
-    console.log(res);
     return res.results.map(this.getMovieData);
   }
 
@@ -78,8 +80,9 @@ export default class MoviesService {
     posterPath: movie.poster_path,
     title: movie.title,
     releaseDate: movie.release_date,
-    genre: 'Drama',
+    genre: movie.genre_ids,
     overview: movie.overview,
     rating: movie.rating,
+    vote: movie.vote_average,
   });
 }

@@ -7,7 +7,7 @@ import MoviesService from '../../services/movie-service';
 import RatedMovieList from '../rated-movie-list';
 import SearchMovieList from '../search-movie-list';
 
-import { MovieServiceProvider } from '../movie-service-context';
+import { GenresProvider } from '../genres-context';
 
 import './app.css';
 
@@ -16,23 +16,28 @@ export default class App extends Component {
 
   state = {
     idGuestSession: '',
+    genres: [],
   };
 
   componentDidMount() {
     this.logInGuestSession();
-    console.log('App mounted');
-    console.log(this.state.idGuestSession);
+    this.updateGenres();
   }
 
   logInGuestSession() {
     this.movieService.getGuestSession().then((id) => {
       this.setState({ idGuestSession: id });
-      console.log('Got ID');
+    });
+  }
+
+  updateGenres() {
+    this.movieService.getGenres().then((res) => {
+      this.setState({ genres: res });
     });
   }
 
   render() {
-    const { idGuestSession } = this.state;
+    const { idGuestSession, genres } = this.state;
     const items = [
       {
         key: '1',
@@ -80,9 +85,9 @@ export default class App extends Component {
       },
     ];
     return (
-      <MovieServiceProvider value={{}}>
+      <GenresProvider value={genres}>
         <Tabs defaultActiveKey="1" centered items={items} tabBarStyle={{ paddingTop: '13px' }} destroyInactiveTabPane />
-      </MovieServiceProvider>
+      </GenresProvider>
     );
   }
 }

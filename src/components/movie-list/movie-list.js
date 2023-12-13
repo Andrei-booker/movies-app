@@ -27,13 +27,9 @@ export default class MovieList extends Component {
     this.setState({ idGuestSession: this.props.idGuestSession });
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    if (this.state.rating !== prevState.rating) {
-      console.log(this.state.rating);
-    }
+  componentDidUpdate(prevProps) {
     if (this.props.idGuestSession !== prevProps.idGuestSession) {
       this.setState({ idGuestSession: this.props.idGuestSession });
-      console.log(this.state.idGuestSession);
     }
   }
 
@@ -44,13 +40,7 @@ export default class MovieList extends Component {
       const { id, rating, ...movieProps } = movie;
       return (
         <li key={id}>
-          <MovieCard
-            {...movieProps}
-            movieId={id}
-            idGuestSession={idGuestSession}
-            updateRating={this.updateRating}
-            rating={rating}
-          />
+          <MovieCard {...movieProps} movieId={id} idGuestSession={idGuestSession} rating={rating} />
         </li>
       );
     });

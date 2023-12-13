@@ -24,14 +24,12 @@ export default class RatedMovieList extends Component {
   componentDidMount() {
     this.updateRatedMovieList();
     this.updateTotalPages();
-    console.log('Rated mounted');
   }
 
   componentDidUpdate(prevProps, prevState) {
     if (this.state.totalPages !== prevState.totalPages) {
       this.updateRatedMovieList();
     }
-    console.log('Rated updated');
   }
 
   onError = () => {
@@ -53,7 +51,6 @@ export default class RatedMovieList extends Component {
 
   updateRatedMovieList() {
     const { idGuestSession, page } = this.state;
-    console.log(idGuestSession);
     if (!idGuestSession) {
       return;
     }
