@@ -82,8 +82,7 @@ export default class MovieCard extends Component {
   }
 
   hiddenTitle(text) {
-    const { overview } = this.props;
-    if (text && overview) {
+    if (text) {
       const wordsArr = text.split('');
       const wordsCount = wordsArr.length;
       if (wordsCount > 20) {
